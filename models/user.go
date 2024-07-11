@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"events.com/db"
+	"events.com/utils"
 )
 
 type User struct {
@@ -14,6 +15,7 @@ type User struct {
 
 func (u User) Save() error {
 	// Save the user to the database
+	u.Password = utils.HashPassword(u.Password)
 	rowsAffected, err := db.DB.Exec("INSERT INTO users(email, password) VALUES(?,?)", u.Email, u.Password)
 	if err != nil {
 		return err
@@ -24,7 +26,7 @@ func (u User) Save() error {
 	if err != nil{
 		return err
 	}
-	
+
 	fmt.Println("the number of rows affected are" + string(value))
 	return nil
 }

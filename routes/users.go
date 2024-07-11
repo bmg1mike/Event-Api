@@ -2,7 +2,6 @@ package routes
 
 import (
 	"events.com/models"
-	"events.com/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,7 +15,6 @@ func CreateUser(context *gin.Context) {
 		return
 	}
 
-	user.Password = utils.HashPassword(user.Password)
 	err = user.Save()
 	if err != nil {
 		context.JSON(500, gin.H{"error": err.Error()})
