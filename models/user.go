@@ -30,3 +30,14 @@ func (u User) Save() error {
 	fmt.Println("the number of rows affected are" + string(value))
 	return nil
 }
+
+func GetUser(email string) (User,error) {
+
+	row := db.DB.QueryRow("SELECT * FROM users WHERE email = ?", email)
+	var user User
+	err := row.Scan(&user.ID, &user.Email, &user.Password)
+	if err != nil {
+		return User{}, err
+	}
+	return user, nil
+}
